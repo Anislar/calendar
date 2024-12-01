@@ -28,7 +28,7 @@ export default function OnBoardingRouteTwo() {
         </CardHeader>
         <CardContent>
           <Button asChild className="w-full">
-            <Link href="/">
+            <Link href="/api/auth">
               <CalendarCheck2 className="size-4 mr-2" />
               Connect Calendar to Your Account
             </Link>

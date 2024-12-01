@@ -27,7 +27,12 @@ function AuthModal() {
             }}
             className="w-full"
           >
-            <SubmitButton className="w-full" authType="Google" />
+            <SubmitButton
+              className="w-full"
+              variant="outline"
+              authType="Google"
+              text="Sign in with"
+            />
           </form>
           <form
             action={async () => {
@@ -36,7 +41,12 @@ function AuthModal() {
             }}
             className="w-full"
           >
-            <SubmitButton className="w-full" authType="Github" />
+            <SubmitButton
+              className="w-full"
+              variant="outline"
+              authType="Github"
+              text="Sign in with"
+            />
           </form>
         </div>
       </DialogContent>

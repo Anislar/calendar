@@ -24,7 +24,7 @@ interface ButtonProps {
 
 function SubmitButton({
   authType,
-  variant = "outline",
+  variant = "default",
   text = "Sign in with",
   className,
 }: ButtonProps) {
@@ -32,11 +32,14 @@ function SubmitButton({
   return (
     <Button
       className={cn("w-fit", className)}
-      variant={variant}
+      variant={pending ? "secondary" : variant}
       disabled={pending}
     >
       {pending ? (
-        <Loader2 className=" size-4 mr-2 animate-spin" />
+        <div className="flex items-center gap-x-2">
+          <Loader2 className=" size-4 mr-2 animate-spin" />
+          Please wait
+        </div>
       ) : (
         <>
           {authType && (

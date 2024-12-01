@@ -1,9 +1,11 @@
 import { ReactNode } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
+import { redirect } from "next/navigation";
 
 import { signOut } from "../lib/auth";
 import Logo from "@/components/logo";
+import { Toaster } from "@/components/ui/sonner";
 import DashboardLinks from "../components/dashboard-link";
 import {
   Sheet,
@@ -23,23 +25,26 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { requireUser } from "../lib/hooks";
 import prisma from "../lib/db";
-import { redirect } from "next/navigation";
 
 async function getData(userId: string) {
   const data = await prisma.user.findUnique({
     where: { id: userId },
     select: {
       userName: true,
+      grantId: true,
     },
   });
   if (!data?.userName) {
     return redirect("/onboarding");
   }
+  if (!data.grantId) {
+    return redirect("/onboarding/grant-id");
+  }
   return data;
 }
 async function DashboardLayout({ children }: { children: ReactNode }) {
   const session = await requireUser();
-  await getData(session?.user?.id as string);
+  const data = await getData(session?.user?.id as string);
 
   return (
     <>
@@ -98,7 +103,9 @@ async function DashboardLayout({ children }: { children: ReactNode }) {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuLabel>
+                    Signed as : {data?.userName}
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
                     <Link href="/dashboard/settings">Settings</Link>
@@ -124,6 +131,7 @@ async function DashboardLayout({ children }: { children: ReactNode }) {
           </main>
         </div>
       </div>
+      <Toaster richColors closeButton />
     </>
   );
 }

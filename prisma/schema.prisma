@@ -15,8 +15,12 @@ model User {
   emailVerified DateTime?
   image         String?
   userName      String?   @unique
+  grantId       String?
+  grantEmail    String?
   accounts      Account[]
   sessions      Session[]
+
+  availability Availability[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,4 +63,26 @@ model VerificationToken {
   expires    DateTime
 
   @@id([identifier, token])
+}
+
+model Availability {
+  id        String   @id @default(uuid())
+  day       Day
+  fromTime  String
+  tillTime  String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Day {
+  Monday
+  Tuesday
+  Wednesday
+  Thursday
+  Friday
+  Saturday
+  Sunday
 }

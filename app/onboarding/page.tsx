@@ -101,7 +101,7 @@ function OnBoardingRoute() {
             </div>
           </CardContent>
           <CardFooter>
-            <SubmitButton text="Submit" className="w-full" variant="default" />
+            <SubmitButton text="Submit" className="w-full" />
           </CardFooter>
         </form>
       </Card>
