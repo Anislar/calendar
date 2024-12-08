@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 import Logo from "../../components/logo";
 import AuthModal from "@/components/auth-modal";
 

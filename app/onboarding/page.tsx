@@ -60,7 +60,7 @@ function OnBoardingRoute() {
               />
 
               {fields.fullName.errors && (
-                <ul className="list-disc">
+                <ul>
                   {fields.fullName.errors.map((e) => (
                     <li key={e}>
                       <p className=" text-destructive text-sm">{e}</p>
@@ -90,7 +90,7 @@ function OnBoardingRoute() {
               </div>
 
               {fields.userName.errors && (
-                <ul className="list-disc">
+                <ul>
                   {fields.userName.errors.map((e) => (
                     <li key={e}>
                       <p className=" text-destructive text-sm">{e}</p>

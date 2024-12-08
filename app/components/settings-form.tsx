@@ -60,7 +60,7 @@ function SettingsForm({ fullName, email, profileImage }: ISettingsProps) {
               name={fields.fullName.name}
             />
             {fields.fullName.errors && (
-              <ul className="list-disc">
+              <ul>
                 {fields.fullName.errors.map((e) => (
                   <li key={e}>
                     <p className=" text-destructive text-sm">{e}</p>
@@ -112,7 +112,7 @@ function SettingsForm({ fullName, email, profileImage }: ISettingsProps) {
               />
             )}
             {fields.profileImage.errors && (
-              <ul className="list-disc">
+              <ul>
                 {fields.profileImage.errors.map((e) => (
                   <li key={e}>
                     <p className=" text-destructive text-sm">{e}</p>

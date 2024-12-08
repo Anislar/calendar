@@ -2,7 +2,11 @@
 import { parseWithZod } from "@conform-to/zod";
 import prisma from "./lib/db";
 import { requireUser } from "./lib/hooks";
-import { onBoardingSchemaValidation, settingsSchema } from "./lib/zod-schemas";
+import {
+  eventsTypeSchema,
+  onBoardingSchemaValidation,
+  settingsSchema,
+} from "./lib/zod-schemas";
 import { redirect } from "next/navigation";
 import { Day } from "@prisma/client";
 import { revalidatePath } from "next/cache";
@@ -106,4 +110,30 @@ export async function updateAvailabilityAction(
     console.log("[ERROR_UPDATE_AVAILABILITY]", error);
     throw new Response("Something went wrong!", { status: 500 });
   }
+}
+
+export async function createEventTypeAction(
+  prevState: unknown,
+  formData: FormData
+) {
+  const session = await requireUser();
+  const submission = parseWithZod(formData, {
+    schema: eventsTypeSchema,
+  });
+
+  if (submission.status !== "success") {
+    return submission.reply();
+  }
+
+  await prisma.eventType.create({
+    data: {
+      title: submission.value.title,
+      duration: submission.value.duration,
+      description: submission.value.description,
+      url: submission.value.url,
+      videoCallSoftware: submission.value.videoCallSoftware,
+      userId: session.user?.id,
+    },
+  });
+  return redirect("/dashboard");
 }
