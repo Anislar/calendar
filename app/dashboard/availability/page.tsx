@@ -27,6 +27,9 @@ async function getData(userId: string) {
     where: {
       userId,
     },
+    orderBy: {
+      day: "asc",
+    },
   });
   if (!data) return notFound();
   return data;

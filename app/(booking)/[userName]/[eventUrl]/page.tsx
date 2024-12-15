@@ -5,7 +5,7 @@ import prisma from "@/app/lib/db";
 import { Card, CardContent } from "@/components/ui/card";
 import { CalendarX2, Clock, VideoIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import Calendar from "@/app/components/booking-form/calendar";
+import RenderCalendar from "@/app/components/booking-form/render-calendar";
 
 async function getData(eventUrl: string, userName: string) {
   const data = await prisma.eventType.findFirst({
@@ -31,6 +31,9 @@ async function getData(eventUrl: string, userName: string) {
               day: true,
               isActive: true,
             },
+            orderBy: {
+              day: "asc",
+            },
           },
         },
       },
@@ -47,11 +50,10 @@ export default async function BookingFormRoute({
   params: { userName: string; eventUrl: string };
 }) {
   const data = await getData(params.eventUrl, params.userName);
-  console.log(data);
   return (
     <div className="min-h-screen w-screen flex items-center justify-center">
       <Card className="max-w-[1000px] w-full mx-auto">
-        <CardContent className="p-5 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr]">
+        <CardContent className="p-5 gap-4 md:grid md:grid-cols-[1fr,auto,1fr,auto,1fr]">
           {/* Booking form */}
           <div className="">
             <img
@@ -88,7 +90,7 @@ export default async function BookingFormRoute({
             </div>
           </div>
           <Separator orientation="vertical" className="h-full w-[1px]" />
-          <Calendar />
+          <RenderCalendar availibility={data.User?.availability} />
         </CardContent>
       </Card>
     </div>

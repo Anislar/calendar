@@ -80,7 +80,6 @@ export async function updateAvailabilityAction(
   await requireUser();
 
   const rawData = Object.fromEntries(formData.entries());
-
   const availabilityData = Object.keys(rawData)
     .filter((key) => key.startsWith("id-"))
     .map((key) => {

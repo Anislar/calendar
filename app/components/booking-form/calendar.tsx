@@ -6,7 +6,11 @@ import { CalendarProps, DateValue } from "@react-types/calendar";
 import { CalendarHeader } from "./calendar-header";
 import CalendarGrid from "./calendar-grid";
 
-function Calendar(props: CalendarProps<DateValue>) {
+function Calendar(
+  props: CalendarProps<DateValue> & {
+    isDateUnavailable?: (date: DateValue) => boolean;
+  }
+) {
   const { locale } = useLocale();
   const state = useCalendarState({
     ...props,
@@ -16,8 +20,10 @@ function Calendar(props: CalendarProps<DateValue>) {
     locale,
     createCalendar,
   });
-  const { calendarProps, prevButtonProps, nextButtonProps, title } =
-    useCalendar(props, state);
+  const { calendarProps, prevButtonProps, nextButtonProps } = useCalendar(
+    props,
+    state
+  );
   return (
     <div {...calendarProps} className=" inline-block">
       <CalendarHeader
@@ -27,7 +33,10 @@ function Calendar(props: CalendarProps<DateValue>) {
         nextCalendarProps={nextButtonProps}
       />
       <div className="flex gap-8">
-        <CalendarGrid state={state} />
+        <CalendarGrid
+          isDateUnavailable={props.isDateUnavailable}
+          state={state}
+        />
       </div>
     </div>
   );
